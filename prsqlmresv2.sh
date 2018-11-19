@@ -43,7 +43,7 @@ GetDirNameFromStr() {					# function to get directory name from the string that 
 }
 
 cd $SQLMAP_OUTPUT_PATH
-for CSVFile in `find ./ -depth 1 -type f -name "*.csv"`;do 					# processing CSV files
+for CSVFile in `find ./ -maxdepth 0 -type f -name "*.csv"`;do 					# processing CSV files
 	FILE=$SQLMAP_OUTPUT_PATH$CSVFile
 	echo 'Processing CSV file: '$FILE
 	while read LINE
@@ -83,8 +83,11 @@ done                                                         # processing the re
 #	do 
 #		echo 'directory name: '$dir
 #	done
-for DIR in `find $SQLMAP_OUTPUT_PATH -depth 1 -type d`
+for DIR in `find $SQLMAP_OUTPUT_PATH -maxdepth 0 -type d`
 do
+	if [$DIR == './'];then
+		continue
+	fi
 	LEN=${#SQLMAP_OUTPUT_PATH}
 	let "LEN+=1"
 	echo 'directory name: '$DIR
